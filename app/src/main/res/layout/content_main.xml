@@ -4,36 +4,78 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="horizontal"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="horizontal"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.kevin.crunchtime.MainActivity"
     tools:showIn="@layout/activity_main">
 
-    <Spinner
-        android:id="@+id/exercise_spinner"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/selector"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"/>
-    <EditText
-        android:id="@+id/exercise_amount"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/exercise_spinner"
-        android:hint="reps"
-        android:inputType="number" />
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/exercise_spinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            >
+
+            <EditText
+                android:id="@+id/exercise_amount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:imeOptions="actionDone"
+                android:inputType="number" />
+
+            <TextView
+                android:id="@+id/unit_hint"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/exercise_amount"
+                android:layout_alignLeft="@id/exercise_amount"
+                android:layout_alignRight="@id/exercise_amount"
+                android:layout_alignTop="@id/exercise_amount"
+                android:gravity="right"
+                android:hint="reps" />
+        </RelativeLayout>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/calorie_display"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/selector"
         android:paddingTop="30dp"
         android:text="Enter excercise and amount to calculate calories burned."
-        android:layout_below="@id/exercise_amount"/>
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
+    <TextView
+        android:id="@+id/list_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calorie_display"
+        android:paddingTop="30dp"
+        android:text="Equivalent Exercises:"
+        android:textSize="22sp"
+        android:textStyle="bold" />
 
+    <ListView
+        android:id="@+id/conversion_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/list_title">
 
+    </ListView>
 
 
 </RelativeLayout>

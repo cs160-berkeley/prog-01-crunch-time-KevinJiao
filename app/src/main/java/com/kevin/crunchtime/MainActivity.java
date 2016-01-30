@@ -1,18 +1,15 @@
 package com.kevin.crunchtime;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,22 +20,24 @@ public class MainActivity extends AppCompatActivity {
     //Key: exercise Value: calories per rep/min
     HashMap<String, Exercise> exerciseHashMap = new HashMap<String, Exercise>() {
         {
-            put("Pushup", new Exercise(100.0 / 350, "reps"));
-            put("Situp", new Exercise(100.0 / 200, "reps"));
-            put("Squat", new Exercise(100.0 / 225, "reps"));
-            put("Leg-lift", new Exercise(100.0 / 25, "minutes"));
-            put("Plank", new Exercise(100.0 / 25, "minutes"));
-            put("Jumping Jacks", new Exercise(100.0 / 10, "minutes"));
-            put("Pullup", new Exercise(1.0, "reps"));
-            put("Cycling", new Exercise(100.0 / 12, "minutes"));
-            put("Walking", new Exercise(100.0 / 20, "minutes"));
-            put("Jogging", new Exercise(100.0 / 12, "minutes"));
-            put("Swimming", new Exercise(100.0 / 13, "minutes"));
-            put("Stair-climbing", new Exercise(100.0 / 15, "minutes"));
+            put("Pushup", new Exercise("Pushup", 100.0 / 350, "reps"));
+            put("Situp", new Exercise("Situp", 100.0 / 200, "reps"));
+            put("Squat", new Exercise("Squat", 100.0 / 225, "reps"));
+            put("Leg-lift", new Exercise("Leg-Lift", 100.0 / 25, "minutes"));
+            put("Plank", new Exercise("Plank", 100.0 / 25, "minutes"));
+            put("Jumping Jacks", new Exercise("Jumping Jacks", 100.0 / 10, "minutes"));
+            put("Pullup", new Exercise("Pullups", 1.0, "reps"));
+            put("Cycling", new Exercise("Cycling", 100.0 / 12, "minutes"));
+            put("Walking", new Exercise("Walking", 100.0 / 20, "minutes"));
+            put("Jogging", new Exercise("Jogging", 100.0 / 12, "minutes"));
+            put("Swimming", new Exercise("Swimming", 100.0 / 13, "minutes"));
+            put("Stair-climbing", new Exercise("Stair-Climbing", 100.0 / 15, "minutes"));
         }
     };
     Spinner exerciseSpinner;
     EditText editText;
+    ListView conversionList;
+    ExerciseAdapter exerciseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,9 +73,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 EditText editText = (EditText) findViewById(R.id.exercise_amount);
+                TextView hintText = (TextView) findViewById(R.id.unit_hint);
                 if (editText.getText().toString().length() == 0) {
                     Exercise exercise = exerciseHashMap.get(parent.getItemAtPosition(position).toString());
-                    editText.setHint(exercise.unit);
+                    hintText.setText(exercise.unit);
                 } else {
                     updateDisplay();
                 }
@@ -88,6 +88,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        exerciseAdapter = new ExerciseAdapter(this, exerciseHashMap.values().toArray(new Exercise[12]), 0);
+        conversionList = (ListView) findViewById(R.id.conversion_list);
+        conversionList.setAdapter(exerciseAdapter);
     }
 
     public void updateDisplay() {
@@ -103,27 +106,8 @@ public class MainActivity extends AppCompatActivity {
         String message = "Calories burned: " + calories;
         TextView textView = (TextView) findViewById(R.id.calorie_display);
         textView.setText(message);
-    }
+        exerciseAdapter.setCalories(calories);
+        exerciseAdapter.notifyDataSetChanged();
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
