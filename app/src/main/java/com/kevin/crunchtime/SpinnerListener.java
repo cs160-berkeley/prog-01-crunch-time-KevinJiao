@@ -4,10 +4,9 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
- * Created by kevin on 1/25/16.
+ * @author Kevin Jiao
  */
 public class SpinnerListener implements AdapterView.OnItemSelectedListener {
     private Context context;

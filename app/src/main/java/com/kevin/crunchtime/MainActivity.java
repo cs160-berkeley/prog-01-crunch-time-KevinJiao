@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
 
         exerciseSpinner = (Spinner) findViewById(R.id.exercise_spinner);
         ArrayList<String> exercises = new ArrayList<>(exerciseHashMap.keySet());
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, exercises);
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, exercises);
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         exerciseSpinner.setAdapter(arrayAdapter);
         exerciseSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -74,13 +74,11 @@ public class MainActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 EditText editText = (EditText) findViewById(R.id.exercise_amount);
                 TextView hintText = (TextView) findViewById(R.id.unit_hint);
-                if (editText.getText().toString().length() == 0) {
-                    Exercise exercise = exerciseHashMap.get(parent.getItemAtPosition(position).toString());
-                    hintText.setText(exercise.unit);
-                } else {
+                Exercise exercise = exerciseHashMap.get(parent.getItemAtPosition(position).toString());
+                if (editText.getText().toString().length() != 0) {
                     updateDisplay();
                 }
-
+                hintText.setText(exercise.unit);
             }
 
             @Override
@@ -103,11 +101,10 @@ public class MainActivity extends AppCompatActivity {
             quantity = 0;
         }
         double calories = exercise.value * quantity;
-        String message = "Calories burned: " + calories;
+        String message = String.format("Calories burned: %.1f ", calories);
         TextView textView = (TextView) findViewById(R.id.calorie_display);
         textView.setText(message);
         exerciseAdapter.setCalories(calories);
         exerciseAdapter.notifyDataSetChanged();
-
     }
 }
