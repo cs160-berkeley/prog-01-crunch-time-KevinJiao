@@ -7,7 +7,7 @@ Kevin Jiao ([kevin.jiao@berkeley.edu](mailto:kevin.jiao@berkeley.edu))
 
 ## Demo Video
 
-See [your demo video title here] (https://link_to_your_video)
+See [Crunch Time in action] (https://youtu.be/ykbdzOeKw3g)
 
 ## Screenshots
 
